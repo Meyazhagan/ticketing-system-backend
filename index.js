@@ -3,6 +3,9 @@ require("express-async-errors");
 
 const express = require("express");
 const cors = require("cors");
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+const { instrument } = require("@socket.io/admin-ui");
 
 const mongooseConnect = require("./shared/mongoose");
 
@@ -16,17 +19,19 @@ const converstationRouter = require("./routes/converstation.routes");
 
 const errors = require("./middleware/errors");
 const authUser = require("./middleware/authUser");
+const logging = require("./middleware/logging");
+const OnConnection = require("./services/socket.io/OnConnection");
 
 mongooseConnect();
 const app = express();
 
+const httpServer = createServer(app);
+const io = new Server(httpServer, { cors: { origin: "http://localhost:3000" } });
+
 app.use(cors());
 app.use(express.json());
 
-app.use((req, res, next) => {
-    console.log(req.url);
-    next();
-});
+app.use(logging);
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
@@ -41,5 +46,11 @@ app.use("/api/converstation", authUser, converstationRouter);
 
 app.use(errors);
 
+io.of("/converstation").on("connection", OnConnection(io));
+
+instrument(io, {
+    auth: false,
+});
+
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`Listening to Port - ${PORT}`));
+httpServer.listen(PORT, () => console.log(`Listening to Port - ${PORT}`));
