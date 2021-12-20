@@ -4,7 +4,6 @@ const { isValidObjectId } = require("mongoose");
 
 const pickBody = [
     "title",
-    "subTitle",
     "category",
     "subCategory",
     "description",
@@ -12,6 +11,7 @@ const pickBody = [
     "availableTime.from",
     "availableTime.till",
     "rasiedBy",
+    "status",
 ];
 
 module.exports = async function (req, res) {

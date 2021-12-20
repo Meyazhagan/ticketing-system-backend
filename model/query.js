@@ -60,6 +60,23 @@ const QuerySchema = new Schema({
         type: ObjectId,
         ref: "converstation",
     },
+    solution: {
+        type: String,
+        minlength: 5,
+        maxlength: 1000,
+        trim: true,
+    },
+    feedback: {
+        type: String,
+        minlength: 5,
+        maxlength: 1000,
+        trim: true,
+    },
+    rating: {
+        type: Number,
+        min: 0,
+        max: 5,
+    },
     status: {
         type: String,
         enum: [UNASSIGNED, ASSIGNED, RESOLVED, OPEN, CLOSE, REOPEN],

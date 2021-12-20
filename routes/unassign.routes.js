@@ -7,7 +7,7 @@ const authorize = require("../permissions/authorize");
 const { ADMIN, MENTOR } = require("../model/role");
 
 router.patch("/query", authorize([ADMIN, MENTOR]), unassignQuery);
-router.patch("/query/many", authorize([ADMIN, MENTOR]), unassignManyQuery);
+// router.patch("/query/many", authorize([ADMIN, MENTOR]), unassignManyQuery);
 
 router.patch("/role", authorize([ADMIN]), unassignRole);
 // router.patch("/role/many", authorize([ADMIN]), unassignManyRole);

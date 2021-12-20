@@ -8,6 +8,7 @@ module.exports = async (req, res, next) => {
     // assigned to id
     const queryId = req.body.queryId;
     const assignedToId = req.body.assignedToId;
+    const status = req.body.status;
 
     const query = await Query.findById(queryId);
     if (!query) return res.status(404).send({ error: "No Query Found for given Query ID" });
@@ -20,13 +21,12 @@ module.exports = async (req, res, next) => {
         return res.status(400).send({ error: "Query is already Assigned" });
 
     const converstation = await Converstation.findById(query.converstationId);
-    console.log(converstation);
     converstation.users = [...converstation.users, assignedToId];
+    await converstation.save();
 
     query.assignedTo = assignedTo._id;
     query.status = ASSIGNED;
 
-    await converstation.save();
     await query.save();
-    res.send({ success: { message: "Query Assigned" } });
+    res.send({ success: { message: "Updated Status", query: query } });
 };

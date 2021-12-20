@@ -10,7 +10,7 @@ const converstationSchema = new Schema({
         required: true,
         ref: "User",
     },
-    messagesId: {
+    messages: {
         type: [ObjectId],
         ref: "Message",
     },

@@ -11,7 +11,7 @@ const MessageSchema = new Schema({
         ref: "User",
     },
     to: {
-        type: ObjectId,
+        type: [ObjectId],
         required: true,
         ref: "User",
     },

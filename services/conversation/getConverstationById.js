@@ -1,11 +1,13 @@
 const Converstation = require("../../model/converstation");
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
     const id = req.params.id;
-    const converstation = Converstation.findOne({
+    const converstation = await Converstation.findOne({
         _id: id,
         users: { $in: [req.user?._id] },
-    }).populate("messagesId");
+    })
+        .populate("messages")
+        .populate("users", "name email");
 
     res.send({ success: { converstation } });
 };

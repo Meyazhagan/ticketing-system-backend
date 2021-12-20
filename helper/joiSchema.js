@@ -63,12 +63,21 @@ const schema = {
     }),
     QUERY: QueryJoiSchema,
     QUERY_PARAMS: Joi.object({
-        status: Joi.string().valid(ASSIGNED, UNASSIGNED, RESOLVED, OPEN, CLOSE, REOPEN),
+        status: Joi.array().items(Joi.string().valid(ASSIGNED, UNASSIGNED, OPEN, CLOSE, REOPEN)),
+        category: Joi.array().items(Joi.string().allow("")),
+        subCategory: Joi.array().items(Joi.string().allow("")),
+        preferredLanguage: Joi.array().items(Joi.string().allow("")),
     }),
     ASSIGN_QUERY: Joi.object({
         queryId: Joi.objectId().required(),
         assignedToId: Joi.objectId().required(),
     }),
+    UPDATE_QUERY: {
+        queryId: Joi.objectId().required(),
+        status: Joi.string().valid(OPEN, CLOSE, REOPEN).required(),
+        solution: Joi.string().allow(""),
+        feedback: Joi.string().allow(""),
+    },
     UNASSIGN_QUERY: Joi.object({
         queryId: Joi.objectId().required(),
     }),
