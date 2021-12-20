@@ -26,7 +26,7 @@ mongooseConnect();
 const app = express();
 
 const httpServer = createServer(app);
-const io = new Server(httpServer, { cors: { origin: "http://localhost:3000" } });
+const io = new Server(httpServer, { cors: { origin: process.env.FRONTEND_URL } });
 
 app.use(cors());
 app.use(express.json());
