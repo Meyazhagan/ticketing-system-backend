@@ -8,8 +8,6 @@ module.exports = async function (req, res, next) {
     if (category) filter.category = { $in: category };
     if (subCategory) filter.subCategory = { $in: subCategory };
     if (preferredLanguage) filter.preferredLanguage = { $in: preferredLanguage };
-    console.log(filter);
-    console.log(req.query);
 
     const allQuery = await Query.find(filter)
         .populate("rasiedBy", "firstName email")
