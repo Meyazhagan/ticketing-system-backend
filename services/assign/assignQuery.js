@@ -8,7 +8,6 @@ module.exports = async (req, res, next) => {
     // assigned to id
     const queryId = req.body.queryId;
     const assignedToId = req.body.assignedToId;
-    const status = req.body.status;
 
     const query = await Query.findById(queryId);
     if (!query) return res.status(404).send({ error: "No Query Found for given Query ID" });
@@ -28,5 +27,6 @@ module.exports = async (req, res, next) => {
     query.status = ASSIGNED;
 
     await query.save();
-    res.send({ success: { message: "Updated Status", query: query } });
+
+    res.send({ success: { message: "Updated Status", query } });
 };
